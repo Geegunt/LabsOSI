@@ -1,0 +1,117 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=20mm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setmonofont{Courier New}
+\usepackage[russian]{babel}
+\usepackage{listings}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\lstset{basicstyle=\ttfamily\fontsize{8.2}{9.5}\selectfont,
+  columns=fullflexible,keepspaces=true,showstringspaces=false,
+  breaklines=true,numbers=none,aboveskip=4pt,belowskip=6pt}
+\newcommand{\head}[1]{\par\medskip{\large\bfseries #1}\par\nobreak\smallskip}
+\newcommand{\subhead}[1]{\par\smallskip{\bfseries #1}\par\nobreak\smallskip}
+\begin{document}
+\thispagestyle{empty}
+\vspace*{40mm}
+\begin{center}
+{\Large\bfseries ОТЧЁТ}\par
+по лабораторной работе №2\par
+по дисциплине «Операционные системы»\par
+\vspace{8mm}
+{\large Процессы и неименованные каналы}\par
+Вариант 4
+\end{center}
+\vspace{35mm}
+\begin{flushright}
+Выполнил: Григорьев Глеб Алексеевич\par
+Группа: М8О-202БВ-25
+\end{flushright}
+\vfill
+\begin{center}2026\end{center}
+\newpage
+\head{1 Цель работы}
+Изучить создание дочернего процесса и обмен данными через неименованные каналы. Использовать перенаправление стандартных потоков и ожидание завершения дочернего процесса.
+
+\head{2 Постановка задачи}
+Родительская программа получает имя выходного файла и строки с числами типа float. Дочерняя программа последовательно делит первое число строки на остальные и записывает результат в файл. При нулевом делителе оба процесса должны завершиться.
+
+\head{3 Организация программы}
+Решение состоит из программ parent и child. Общие функции обмена находятся в ipc.c, их объявления и коды состояний — в ipc.h. Для сборки используется Makefile.
+
+Родитель создаёт два канала до fork. Через pipe1 он передаёт строки в стандартный ввод дочернего процесса. Через pipe2 дочерний процесс возвращает состояние обработки. Имя выходного файла передаётся аргументом при запуске child через execl.
+
+После каждой строки родитель ждёт ответ: K — результат записан, Z — нулевой делитель, E — ошибка. Перед началом работы дочерний процесс отправляет R, если файл успешно открыт. Такой порядок позволяет завершить оба процесса при делении на ноль без следующего ввода пользователя.
+
+\head{4 Основные фрагменты программы}
+\subhead{Создание каналов и запуск дочернего процесса — parent.c}
+\lstinputlisting[firstline=45,lastline=70]{../parent.c}
+\newpage
+\head{4 Основные фрагменты программы (продолжение)}
+\subhead{Преобразование чисел и деление — child.c}
+Первое число сохраняется в result. Каждый следующий делитель проверяется на ноль до выполнения операции. strtof позволяет проверить, что число прочитано полностью и находится в допустимом диапазоне.
+
+\lstinputlisting[firstline=21,lastline=41]{../child.c}
+\subhead{Запись в канал — ipc.c}
+write может передать только часть строки. Функция повторяет запись оставшихся байтов, а при EINTR повторяет прерванный вызов.
+
+\lstinputlisting[firstline=7,lastline=23]{../ipc.c}
+SIGPIPE игнорируется, поэтому обрыв канала обрабатывается как ошибка write. При закрытии канала ответов родитель получает EOF. Ошибки системных вызовов проверяются, сообщения выводятся в stderr.
+
+Перед завершением освобождаются буферы getline, закрываются файл и дескрипторы каналов. Родитель вызывает waitpid. При обычном конце ввода запись в pipe1 закрывается, дочерний процесс получает EOF и завершает работу.
+
+\newpage
+\head{5 Результаты проверки}
+Проверка выполнена 18 ноября 2026 года в контейнере Debian 12, Linux aarch64. Использовались GCC 12.2, Python 3.11 и strace 6.1. Команды сборки и тестирования:
+
+\begin{lstlisting}
+make clean
+make
+make test
+\end{lstlisting}
+Сборка с -Wall -Wextra -Wpedantic -Werror завершилась без предупреждений. Прошли все 18 тестов, включая запись в /dev/full, длинные строки, ошибочный ввод и завершение по нулевому делителю.
+
+\subhead{Обычный запуск}
+Для строк «100 2 5», «7.5 2.5» и «0 2» в файле получены 10, 3 и 0. Ниже приведены строки журнала normal.log с PID процессов:
+
+\begin{lstlisting}
+[parent PID=890] Output file: [parent PID=890] child PID=891
+[child PID=891 PPID=890] Started
+[parent PID=890] Numbers (Ctrl+D to finish): [child PID=891] Result: 10
+[parent PID=890] Numbers (Ctrl+D to finish): [child PID=891] Result: 3
+[parent PID=890] Numbers (Ctrl+D to finish): [child PID=891] Result: 0
+[parent PID=890] Numbers (Ctrl+D to finish): [parent PID=890] Child exit code: 0
+\end{lstlisting}
+\subhead{Нулевой делитель}
+На вход поданы «20 2», «10 0» и «99 3». В файле остался только результат 10. Третья команда не выполнена, оба процесса завершились с кодом 2. Фрагмент zero.log:
+
+\begin{lstlisting}
+[parent PID=897] Output file: [parent PID=897] child PID=898
+[child PID=898 PPID=897] Started
+[parent PID=897] Numbers (Ctrl+D to finish): [parent PID=897] Division by zero; stopping
+[parent PID=897] Child exit code: 2
+\end{lstlisting}
+\subhead{Трассировка системных вызовов}
+Запуск выполнялся через strace -f -o /logs/normal.strace ./parent. Фрагменты normal.strace показывают создание каналов, запуск дочернего процесса, запись результата и ожидание его завершения:
+
+\begin{lstlisting}
+890   pipe2([3, 4], 0)                  = 0
+890   pipe2([5, 6], 0)                  = 0
+890   clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xffff80d4b050) = 891
+891   dup3(3, 0, 0 <unfinished ...>
+891   <... dup3 resumed>)               = 0
+891   dup3(6, 1, 0 <unfinished ...>
+891   <... dup3 resumed>)               = 1
+891   execve("./child", ["child", "/logs/normal-results.txt"], 0xffffe0dd7bc8 /* 6 vars */) = 0
+891   write(3, "10\n", 3)               = 3
+891   exit_group(0)                     = ?
+890   <... wait4 resumed>[{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 891
+890   exit_group(0)                     = ?
+\end{lstlisting}
+В этой Linux-среде вызовы fork, dup2 и waitpid видны как clone, dup3 и wait4. Полные журналы и результаты тестов сохранены в docs/assets/linux.
+
+\head{6 Вывод}
+Реализованы две программы, обменивающиеся строками и состояниями через неименованные каналы. Деление выполняется в дочернем процессе. Проверены обычное завершение, нулевой делитель и ошибочный ввод. Linux-тесты и трассировка подтвердили работу обмена и завершение обоих процессов.
+
+\end{document}
