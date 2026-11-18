@@ -3,7 +3,8 @@ set -eu
 
 project=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 docker info >/dev/null
-logs="$project/docs/assets/linux"
+lab=$(CDPATH= cd -- "$project/.." && pwd)
+logs="$lab/report/assets/linux"
 mkdir -p "$logs"
 
 docker run --rm -i \

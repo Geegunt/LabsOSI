@@ -16,8 +16,7 @@ test: all
 	python3 tests/test_lab.py
 
 pdf:
-	mkdir -p output/pdf
-	$(LATEX) -o output/pdf docs/lab2.tex
+	cd ../report && $(LATEX) -o . lab2.tex
 
 LATEX = tectonic
 

@@ -58,22 +58,22 @@
 \begin{center}\includegraphics[width=0.931\linewidth]{assets/ipc-schema.png}\end{center}
 \begin{center}\small Рисунок 1 — Архитектура решения\end{center}
 \head{3. Листинг ключевых фрагментов кода}
-Полные исходники: \url{https://github.com/Geegunt/LabsOSI/tree/main/Lab2}
+Полные исходники: \url{https://github.com/Geegunt/LabsOSI/tree/main/Lab2/src}
 \subhead{3.1 Создание каналов и запуск дочернего процесса}
 Родитель создаёт каналы и дочерний процесс. В дочерней ветке stdin и stdout перенаправляются на каналы, затем запускается отдельная программа child.
 
-\lstinputlisting[firstline=45,lastline=70]{../parent.c}
+\lstinputlisting[firstline=45,lastline=70]{../src/parent.c}
 \begin{center}\small Листинг 1 — Инициализация IPC и запуск child в parent.c\end{center}
 \newpage
 \subhead{3.2 Преобразование чисел и деление}
 Первое число сохраняется в result. Каждый следующий делитель проверяется на ноль до выполнения операции. strtof позволяет проверить, что число прочитано полностью и находится в допустимом диапазоне.
 
-\lstinputlisting[firstline=21,lastline=41]{../child.c}
+\lstinputlisting[firstline=21,lastline=41]{../src/child.c}
 \begin{center}\small Листинг 2 — Разбор чисел и проверка делителя в child.c\end{center}
 \subhead{3.3 Передача данных через канал}
 write может передать только часть строки. Функция повторяет запись оставшихся байтов, а при EINTR повторяет прерванный вызов.
 
-\lstinputlisting[firstline=7,lastline=23]{../ipc.c}
+\lstinputlisting[firstline=7,lastline=23]{../src/ipc.c}
 \begin{center}\small Листинг 3 — Запись строки целиком в ipc.c\end{center}
 SIGPIPE игнорируется, поэтому обрыв канала обрабатывается как ошибка write. При закрытии канала ответов родитель получает EOF. Ошибки системных вызовов проверяются, сообщения выводятся в stderr.
 
@@ -113,7 +113,7 @@ make test
 В журналах видны PID родительских и дочерних процессов: 890/891 и 897/898. Запись результатов подтверждается сообщениями Result и содержимым файлов. Завершение процессов дополнительно проверено по exit\_group и wait4 в трассировке.
 
 \subhead{4.2 Скриншоты результатов}
-На рисунке приведены фрагменты сохранённой трассировки normal.strace. Видны создание каналов, запуск child, запись результата и получение статуса дочернего процесса. Полные журналы находятся в docs/assets/linux.
+На рисунке приведены фрагменты сохранённой трассировки normal.strace. Видны создание каналов, запуск child, запись результата и получение статуса дочернего процесса. Полные журналы находятся в report/assets/linux.
 
 \begin{center}\includegraphics[width=0.993\linewidth]{assets/linux-trace.png}\end{center}
 \begin{center}\small Рисунок 2 — Фрагменты трассировки обычного запуска в Linux\end{center}
