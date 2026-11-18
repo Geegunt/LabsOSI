@@ -1,0 +1,9 @@
+[parent PID=890] Output file: [parent PID=890] child PID=891
+[child PID=891 PPID=890] Started
+[parent PID=890] Numbers (Ctrl+D to finish): [child PID=891] Result: 10
+[parent PID=890] Result saved
+[parent PID=890] Numbers (Ctrl+D to finish): [child PID=891] Result: 3
+[parent PID=890] Result saved
+[parent PID=890] Numbers (Ctrl+D to finish): [child PID=891] Result: 0
+[parent PID=890] Result saved
+[parent PID=890] Numbers (Ctrl+D to finish): [parent PID=890] Child exit code: 0

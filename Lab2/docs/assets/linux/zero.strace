@@ -1,0 +1,145 @@
+897   execve("./parent", ["./parent"], 0xffffd1f8dc08 /* 6 vars */) = 0
+897   brk(NULL)                         = 0xaaaad2fe9000
+897   mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xffff86621000
+897   faccessat(AT_FDCWD, "/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+897   openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+897   newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=7559, ...}, AT_EMPTY_PATH) = 0
+897   mmap(NULL, 7559, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffff8661f000
+897   close(3)                          = 0
+897   openat(AT_FDCWD, "/lib/aarch64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+897   read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0000y\2\0\0\0\0\0"..., 832) = 832
+897   newfstatat(3, "", {st_mode=S_IFREG|0755, st_size=1651408, ...}, AT_EMPTY_PATH) = 0
+897   mmap(NULL, 1826912, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xffff86429000
+897   mmap(0xffff86430000, 1761376, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0) = 0xffff86430000
+897   munmap(0xffff86429000, 28672)     = 0
+897   munmap(0xffff865df000, 32864)     = 0
+897   mprotect(0xffff865bc000, 65536, PROT_NONE) = 0
+897   mmap(0xffff865cc000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x18c000) = 0xffff865cc000
+897   mmap(0xffff865d2000, 49248, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xffff865d2000
+897   close(3)                          = 0
+897   set_tid_address(0xffff86622050)   = 897
+897   set_robust_list(0xffff86622060, 24) = 0
+897   rseq(0xffff866226a0, 0x20, 0, 0xd428bc00) = 0
+897   mprotect(0xffff865cc000, 16384, PROT_READ) = 0
+897   mprotect(0xaaaaaf72f000, 4096, PROT_READ) = 0
+897   mprotect(0xffff86626000, 8192, PROT_READ) = 0
+897   prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+897   munmap(0xffff8661f000, 7559)      = 0
+897   rt_sigaction(SIGPIPE, {sa_handler=SIG_IGN, sa_mask=[], sa_flags=0}, NULL, 8) = 0
+897   getpid()                          = 897
+897   write(2, "[parent PID=897] Output file: ", 30) = 30
+897   getrandom("\xb2\x09\x40\x00\xd7\x2b\x20\xce", 8, GRND_NONBLOCK) = 8
+897   brk(NULL)                         = 0xaaaad2fe9000
+897   brk(0xaaaad300a000)               = 0xaaaad300a000
+897   newfstatat(0, "", {st_mode=S_IFREG|0644, st_size=38, ...}, AT_EMPTY_PATH) = 0
+897   read(0, "/logs/zero-results.txt\n20 2\n10 0"..., 4096) = 38
+897   pipe2([3, 4], 0)                  = 0
+897   pipe2([5, 6], 0)                  = 0
+897   clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xffff86622050) = 898
+897   close(3 <unfinished ...>
+898   set_robust_list(0xffff86622060, 24 <unfinished ...>
+897   <... close resumed>)              = 0
+897   close(6 <unfinished ...>
+898   <... set_robust_list resumed>)    = 0
+897   <... close resumed>)              = 0
+897   getpid( <unfinished ...>
+898   dup3(3, 0, 0 <unfinished ...>
+897   <... getpid resumed>)             = 897
+898   <... dup3 resumed>)               = 0
+897   write(2, "[parent PID=897] child PID=898\n", 31 <unfinished ...>
+898   dup3(6, 1, 0 <unfinished ...>
+897   <... write resumed>)              = 31
+897   read(5,  <unfinished ...>
+898   <... dup3 resumed>)               = 1
+898   close(3)                          = 0
+898   close(4)                          = 0
+898   close(5)                          = 0
+898   close(6)                          = 0
+898   execve("./child", ["child", "/logs/zero-results.txt"], 0xffffe349d1c8 /* 6 vars */) = 0
+898   brk(NULL)                         = 0xaaaafb9b1000
+898   mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xffff950c8000
+898   faccessat(AT_FDCWD, "/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+898   openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+898   newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=7559, ...}, AT_EMPTY_PATH) = 0
+898   mmap(NULL, 7559, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffff950c6000
+898   close(3)                          = 0
+898   openat(AT_FDCWD, "/lib/aarch64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+898   read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0000y\2\0\0\0\0\0"..., 832) = 832
+898   newfstatat(3, "", {st_mode=S_IFREG|0755, st_size=1651408, ...}, AT_EMPTY_PATH) = 0
+898   mmap(NULL, 1826912, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xffff94ed0000
+898   mmap(0xffff94ed0000, 1761376, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0) = 0xffff94ed0000
+898   munmap(0xffff9507f000, 61536)     = 0
+898   mprotect(0xffff9505c000, 65536, PROT_NONE) = 0
+898   mmap(0xffff9506c000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x18c000) = 0xffff9506c000
+898   mmap(0xffff95072000, 49248, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xffff95072000
+898   close(3)                          = 0
+898   set_tid_address(0xffff950c9050)   = 898
+898   set_robust_list(0xffff950c9060, 24) = 0
+898   rseq(0xffff950c96a0, 0x20, 0, 0xd428bc00) = 0
+898   mprotect(0xffff9506c000, 16384, PROT_READ) = 0
+898   mprotect(0xaaaae522f000, 4096, PROT_READ) = 0
+898   mprotect(0xffff950cd000, 8192, PROT_READ) = 0
+898   prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+898   munmap(0xffff950c6000, 7559)      = 0
+898   getpid()                          = 898
+898   getppid()                         = 897
+898   write(2, "[child PID=898 PPID=897] Started"..., 33) = 33
+898   getrandom("\xc1\xa2\x2b\x17\x80\x74\x19\x52", 8, GRND_NONBLOCK) = 8
+898   brk(NULL)                         = 0xaaaafb9b1000
+898   brk(0xaaaafb9d2000)               = 0xaaaafb9d2000
+898   openat(AT_FDCWD, "/logs/zero-results.txt", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3
+898   write(1, "R", 1 <unfinished ...>
+897   <... read resumed>"R", 1)         = 1
+898   <... write resumed>)              = 1
+897   getpid( <unfinished ...>
+898   newfstatat(0, "",  <unfinished ...>
+897   <... getpid resumed>)             = 897
+898   <... newfstatat resumed>{st_mode=S_IFIFO|0600, st_size=0, ...}, AT_EMPTY_PATH) = 0
+897   write(2, "[parent PID=897] Numbers (Ctrl+D"..., 45 <unfinished ...>
+898   read(0,  <unfinished ...>
+897   <... write resumed>)              = 45
+897   write(4, "20 2\n", 5)             = 5
+898   <... read resumed>"20 2\n", 4096) = 5
+897   read(5,  <unfinished ...>
+898   newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=0, ...}, AT_EMPTY_PATH) = 0
+898   write(3, "10\n", 3)               = 3
+898   getpid()                          = 898
+898   write(2, "[child PID=898] Result: 10\n", 27) = 27
+898   write(1, "K", 1 <unfinished ...>
+897   <... read resumed>"K", 1)         = 1
+898   <... write resumed>)              = 1
+897   getpid( <unfinished ...>
+898   read(0,  <unfinished ...>
+897   <... getpid resumed>)             = 897
+897   write(2, "[parent PID=897] Result saved\n", 30) = 30
+897   getpid()                          = 897
+897   write(2, "[parent PID=897] Numbers (Ctrl+D"..., 45) = 45
+897   write(4, "10 0\n", 5)             = 5
+897   read(5,  <unfinished ...>
+898   <... read resumed>"10 0\n", 4096) = 5
+898   close(3)                          = 0
+898   write(1, "Z", 1 <unfinished ...>
+897   <... read resumed>"Z", 1)         = 1
+898   <... write resumed>)              = 1
+897   getpid( <unfinished ...>
+898   close(0 <unfinished ...>
+897   <... getpid resumed>)             = 897
+898   <... close resumed>)              = 0
+897   write(2, "[parent PID=897] Division by zer"..., 44 <unfinished ...>
+898   close(1 <unfinished ...>
+897   <... write resumed>)              = 44
+897   close(5 <unfinished ...>
+898   <... close resumed>)              = 0
+897   <... close resumed>)              = 0
+898   exit_group(2 <unfinished ...>
+897   close(4)                          = 0
+898   <... exit_group resumed>)         = ?
+897   wait4(898,  <unfinished ...>
+898   +++ exited with 2 +++
+897   <... wait4 resumed>[{WIFEXITED(s) && WEXITSTATUS(s) == 2}], 0, NULL) = 898
+897   --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=898, si_uid=0, si_status=2, si_utime=0, si_stime=0} ---
+897   getpid()                          = 897
+897   write(2, "[parent PID=897] Child exit code"..., 36) = 36
+897   lseek(0, -5, SEEK_CUR)            = 33
+897   exit_group(2)                     = ?
+897   +++ exited with 2 +++

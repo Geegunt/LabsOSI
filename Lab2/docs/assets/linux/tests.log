@@ -1,0 +1,27 @@
+rm -f parent child
+cc -D_POSIX_C_SOURCE=200809L -std=c11 -Wall -Wextra -Wpedantic -Werror -O2 parent.c ipc.c -o parent
+cc -D_POSIX_C_SOURCE=200809L -std=c11 -Wall -Wextra -Wpedantic -Werror -O2 child.c ipc.c -o child
+python3 tests/test_lab.py
+test_bad_output_path (__main__.LabTests.test_bad_output_path) ... ok
+test_existing_file_truncated (__main__.LabTests.test_existing_file_truncated) ... ok
+test_float_precision (__main__.LabTests.test_float_precision) ... ok
+test_invalid_commands (__main__.LabTests.test_invalid_commands) ... ok
+test_long_line (__main__.LabTests.test_long_line) ... ok
+test_many_commands (__main__.LabTests.test_many_commands) ... ok
+test_missing_child (__main__.LabTests.test_missing_child) ... ok
+test_missing_filename (__main__.LabTests.test_missing_filename) ... ok
+test_negative_zero (__main__.LabTests.test_negative_zero) ... ok
+test_no_commands (__main__.LabTests.test_no_commands) ... ok
+test_no_final_newline (__main__.LabTests.test_no_final_newline) ... ok
+test_previous_results_survive_error (__main__.LabTests.test_previous_results_survive_error) ... ok
+test_valid_commands (__main__.LabTests.test_valid_commands) ... ok
+test_whitespace_exponents (__main__.LabTests.test_whitespace_exponents) ... ok
+test_write_failure (__main__.LabTests.test_write_failure) ... ok
+test_zero_exits_without_more_input_or_eof (__main__.LabTests.test_zero_exits_without_more_input_or_eof) ... ok
+test_zero_over_zero (__main__.LabTests.test_zero_over_zero) ... ok
+test_zero_stops_later_commands (__main__.LabTests.test_zero_stops_later_commands) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.091s
+
+OK
