@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.o
+*.dSYM/
+/Lab2/parent
+/Lab2/child
+/Lab2/tmp/
+/Lab2/linux-check.log
+/Lab2/output/pdf/*.aux
+/Lab2/output/pdf/*.log
+/Lab2/output/pdf/*.toc
+/Lab2/output/pdf/*.synctex.gz
